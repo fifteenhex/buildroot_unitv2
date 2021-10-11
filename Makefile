@@ -4,7 +4,7 @@ DEFCONFIG_RESCUE = ../br2unitv2/configs/unitv2_rescue_defconfig
 EXTERNALS +=../br2autosshkey ../br2unitv2
 TOOLCHAIN = arm-buildroot-linux-gnueabihf_sdk-buildroot.tar.gz
 
-all: buildroot buildroot-rescue copy_outputs
+all: buildroot buildroot-rescue copy_outputs upload
 
 bootstrap.stamp:
 	git submodule init
@@ -20,8 +20,15 @@ include ./br2secretsauce/common.mk
 include ./br2secretsauce/rescue.mk
 
 copy_outputs:
-	cp buildroot/output/images/ipl $(OUTPUTS)/unitv2-ipl
-	cp buildroot/output/images/u-boot.img $(OUTPUTS)/unitv2-u-boot.img
-	cp buildroot/output/images/kernel.fit $(OUTPUTS)/unitv2-kernel.fit
-	cp buildroot/output/images/rootfs.squashfs $(OUTPUTS)/unitv2-rootfs.squashfs
-	cp buildroot_rescue/output/images/kernel-rescue.fit $(OUTPUTS)/unitv2-kernel-rescue.fit
+	$(call copy_to_outputs, $(BUILDROOT_PATH)/output/images/ipl)
+	$(call copy_to_outputs, $(BUILDROOT_PATH)/output/images/u-boot.img)
+	$(call copy_to_outputs, $(BUILDROOT_PATH)/output/images/kernel.fit)
+	$(call copy_to_outputs, $(BUILDROOT_PATH)/output/images/rootfs.squashfs)
+	$(call copy_to_outputs, $(BUILDROOT_RESCUE_PATH)/output/images/kernel-rescue.fit)
+
+upload:
+	$(call upload_to_tftp_with_scp, $(BUILDROOT_PATH)/output/images/ipl)
+	$(call upload_to_tftp_with_scp, $(BUILDROOT_PATH)/output/images/u-boot.img)
+	$(call upload_to_tftp_with_scp, $(BUILDROOT_PATH)/output/images/kernel.fit)
+	$(call upload_to_tftp_with_scp, $(BUILDROOT_PATH)/output/images/rootfs.squashfs)
+	$(call upload_to_tftp_with_scp, $(BUILDROOT_RESCUE_PATH)/output/images/kernel-rescue.fit)
