@@ -24,11 +24,15 @@ copy_outputs:
 	$(call copy_to_outputs, $(BUILDROOT_PATH)/output/images/u-boot.img)
 	$(call copy_to_outputs, $(BUILDROOT_PATH)/output/images/kernel.fit)
 	$(call copy_to_outputs, $(BUILDROOT_PATH)/output/images/rootfs.squashfs)
+ifeq ($(BRANCH), master)
 	$(call copy_to_outputs, $(BUILDROOT_RESCUE_PATH)/output/images/kernel-rescue.fit)
+endif
 
 upload:
 	$(call upload_to_tftp_with_scp, $(BUILDROOT_PATH)/output/images/ipl)
 	$(call upload_to_tftp_with_scp, $(BUILDROOT_PATH)/output/images/u-boot.img)
 	$(call upload_to_tftp_with_scp, $(BUILDROOT_PATH)/output/images/kernel.fit)
 	$(call upload_to_tftp_with_scp, $(BUILDROOT_PATH)/output/images/rootfs.squashfs)
+ifeq ($(BRANCH), master)
 	$(call upload_to_tftp_with_scp, $(BUILDROOT_RESCUE_PATH)/output/images/kernel-rescue.fit)
+endif
