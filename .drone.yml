@@ -15,6 +15,7 @@ steps:
     filesystem_cache_root: "/var/lib/drone/cache"
     mount:
       - 'dl'
+      - 'ccache'
   volumes:
   - name: cache
     path: /var/lib/drone/cache
@@ -62,6 +63,7 @@ steps:
     filesystem_cache_root: "/var/lib/drone/cache"
     mount:
       - 'dl'
+      - 'ccache'
   volumes:
   - name: cache
     path: /var/lib/drone/cache
