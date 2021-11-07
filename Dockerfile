@@ -10,6 +10,5 @@ RUN apt-get -qq update && \
 			unzip \
 			rsync \
 			bc \
-			git \
-			libyaml-dev
+			git
 USER notroot
