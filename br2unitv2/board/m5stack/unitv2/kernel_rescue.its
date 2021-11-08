@@ -5,7 +5,7 @@
 	#address-cells = <1>;
 
 	images {
-		kernel@0 {
+		kernel-0 {
 			data = /incbin/("../../images/zImage");
 			type = "kernel";
 			arch = "arm";
@@ -20,7 +20,7 @@
 				algo = "sha1";
 			};
 		};
-		fdt_unitv2 {
+		fdt-unitv2 {
 			data = /incbin/("../../images/mstar-infinity2m-ssd202d-unitv2.dtb");
 			type = "flat_dt";
 			arch = "arm";
@@ -50,8 +50,8 @@
 	configurations {
 		default = "unitv2";
 		unitv2 {
-			kernel = "kernel@0";
-			fdt = "fdt_unitv2";
+			kernel = "kernel-0";
+			fdt = "fdt-unitv2";
 			ramdisk = "ramdisk@0";
 		};
 	};
