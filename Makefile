@@ -19,6 +19,7 @@ bootstrap: bootstrap.stamp
 include ./br2secretsauce/common.mk
 include ./br2secretsauce/rescue.mk
 
+.PHONY: ubi.img
 ubi.img:
 	echo "[uboot-volume]\n"\
 		"\tmode=ubi\n"\
