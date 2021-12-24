@@ -13,10 +13,10 @@
 			compression = "none";
 			load = <0x21800000>;
                         entry = <0x21800000>;
-			hash@1 {
+			hash-1 {
 				algo = "crc32";
 			};
-			hash@2 {
+			hash-2 {
 				algo = "sha1";
 			};
 		};
@@ -25,23 +25,23 @@
 			type = "flat_dt";
 			arch = "arm";
 			compression = "none";
-			hash@1 {
+			hash-1 {
 				algo = "crc32";
 			};
-			hash@2 {
+			hash-2 {
 				algo = "sha1";
 			};
 		};
-		ramdisk@0 {
+		ramdisk-0 {
 			data = /incbin/("../../images/rootfs.cpio.lz4");
 			type = "ramdisk";
 			arch = "arm";
 			os = "linux";
 			compression = "none";
-			hash@1 {
+			hash-1 {
 				algo = "crc32";
 			};
-			hash@2 {
+			hash-2 {
 				algo = "sha1";
 			};
 		};
@@ -50,9 +50,10 @@
 	configurations {
 		default = "unitv2";
 		unitv2 {
+			description = "unitv2 rescue";
 			kernel = "kernel-0";
 			fdt = "fdt-unitv2";
-			ramdisk = "ramdisk@0";
+			ramdisk = "ramdisk-0";
 		};
 	};
 };
