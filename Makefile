@@ -29,6 +29,23 @@ ubi.img:
 		"\tvol_name=uboot\n"\
 		"\tvol_alignment=1\n"\
 		> ubinize.cfg.tmp
+	echo "[uboot-env]\n"\
+		"\tmode=ubi\n"\
+		"\tvol_id=1\n"\
+		"\tvol_size=256KiB\n"\
+		"\tvol_type=dynamic\n"\
+		"\tvol_name=env\n"\
+		"\tvol_alignment=1\n"\
+		>> ubinize.cfg.tmp
+	echo "[rescue]\n"\
+		"\tmode=ubi\n"\
+		"\timage=buildroot_rescue/output/images/kernel-rescue.fit\n"\
+		"\tvol_id=2\n"\
+		"\tvol_size=16MiB\n"\
+		"\tvol_type=dynamic\n"\
+		"\tvol_name=rescue\n"\
+		"\tvol_alignment=1\n"\
+		>> ubinize.cfg.tmp
 	/usr/sbin/ubinize -o $@ -p 128KiB -m 2048 -s 2048 ubinize.cfg.tmp
 
 copy_outputs: ubi.img
