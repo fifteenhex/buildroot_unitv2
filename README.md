@@ -22,6 +22,11 @@ Wifi doesn't work yet..
   - Cups of tea.
   - SNANDer from my fork - https://github.com/fifteenhex/SNANDer/tree/mstar
 
+## Building
+
+  - Use the prebuilt binaries first
+  - cloning this repo and running `make` should produce bootable images but it will take 1 hour+ the first time.
+
 ## Flashing
 
 ### Flashing GCIS.bin, IPL.bin, u-boot spl and ubi
