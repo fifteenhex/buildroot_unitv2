@@ -21,6 +21,11 @@ Wifi doesn't work yet..
   - some sort of i2c interface that has Linux kernel drivers i.e. https://github.com/harbaum/I2C-Tiny-USB
   - Cups of tea.
   - SNANDer from my fork - https://github.com/fifteenhex/SNANDer/tree/mstar
+  - Access to the PM_UART pins:
+    ![pm_uart](pmuart.png)
+    You need to connect your i2c master here. Yes it's a UART and it makes no sense but there is an i2c
+    programming and debug interface on the same pins.
+    I forget the actual pinout of this port..
 
 ## Building
 
