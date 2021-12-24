@@ -19,34 +19,27 @@ bootstrap: bootstrap.stamp
 include ./br2secretsauce/common.mk
 include ./br2secretsauce/rescue.mk
 
+define ubi-add-vol
+	echo "[$2]\n"\
+		"\tmode=ubi\n"\
+		"\tvol_id=$1\n"\
+		"\tvol_name=$2\n"\
+		"\tvol_size=$3\n"\
+		"\tvol_type=$4\n"\
+		"\timage=$5\n"\
+		"\tvol_alignment=1\n"\
+		>> ubinize.cfg.tmp
+endef
+
 .PHONY: ubi.img
 ubi.img:
-	echo "[uboot-volume]\n"\
-		"\tmode=ubi\n"\
-		"\timage=buildroot/output/images/u-boot.img\n"\
-		"\tvol_id=0\n"\
-		"\tvol_size=1MiB\n"\
-		"\tvol_type=static\n"\
-		"\tvol_name=uboot\n"\
-		"\tvol_alignment=1\n"\
-		> ubinize.cfg.tmp
-	echo "[uboot-env]\n"\
-		"\tmode=ubi\n"\
-		"\tvol_id=1\n"\
-		"\tvol_size=256KiB\n"\
-		"\tvol_type=dynamic\n"\
-		"\tvol_name=env\n"\
-		"\tvol_alignment=1\n"\
-		>> ubinize.cfg.tmp
-	echo "[rescue]\n"\
-		"\tmode=ubi\n"\
-		"\timage=buildroot_rescue/output/images/kernel-rescue.fit\n"\
-		"\tvol_id=2\n"\
-		"\tvol_size=16MiB\n"\
-		"\tvol_type=dynamic\n"\
-		"\tvol_name=rescue\n"\
-		"\tvol_alignment=1\n"\
-		>> ubinize.cfg.tmp
+	- rm ubinize.cfg.tmp
+	dd if=/dev/zero bs=1024 count=256 | tr '\000' '1' > env.img
+	$(call ubi-add-vol,0,uboot,1MiB,static,buildroot/output/images/u-boot.img)
+	$(call ubi-add-vol,1,env,256KiB,static,env.img)
+	$(call ubi-add-vol,2,rescue,16MiB,static,buildroot_rescue/output/images/kernel-rescue.fit)
+	$(call ubi-add-vol,3,kernel,16MiB,static,buildroot/output/images/kernel.fit)
+	$(call ubi-add-vol,4,rootfs,64MiB,dynamic,buildroot/output/images/rootfs.squashfs)
 	/usr/sbin/ubinize -o $@ -p 128KiB -m 2048 -s 2048 ubinize.cfg.tmp
 
 copy_outputs: ubi.img
@@ -64,6 +57,7 @@ upload:
 	$(call upload_to_tftp_with_scp, $(BUILDROOT_PATH)/output/images/u-boot.img)
 	$(call upload_to_tftp_with_scp, $(BUILDROOT_PATH)/output/images/kernel.fit)
 	$(call upload_to_tftp_with_scp, $(BUILDROOT_PATH)/output/images/rootfs.squashfs)
+	$(call upload_to_tftp_with_scp, ubi.img)
 ifeq ($(BRANCH), master)
 	$(call upload_to_tftp_with_scp, $(BUILDROOT_RESCUE_PATH)/output/images/kernel-rescue.fit)
 endif
