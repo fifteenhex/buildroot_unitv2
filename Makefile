@@ -19,11 +19,24 @@ bootstrap: bootstrap.stamp
 include ./br2secretsauce/common.mk
 include ./br2secretsauce/rescue.mk
 
-copy_outputs:
+ubi.img:
+	echo "[uboot-volume]\n"\
+		"\tmode=ubi\n"\
+		"\timage=buildroot/output/images/u-boot.img\n"\
+		"\tvol_id=0\n"\
+		"\tvol_size=1MiB\n"\
+		"\tvol_type=static\n"\
+		"\tvol_name=uboot\n"\
+		"\tvol_alignment=1\n"\
+		> ubinize.cfg.tmp
+	/usr/sbin/ubinize -o $@ -p 128KiB -m 2048 -s 2048 ubinize.cfg.tmp
+
+copy_outputs: ubi.img
 	$(call copy_to_outputs, $(BUILDROOT_PATH)/output/images/ipl)
 	$(call copy_to_outputs, $(BUILDROOT_PATH)/output/images/u-boot.img)
 	$(call copy_to_outputs, $(BUILDROOT_PATH)/output/images/kernel.fit)
 	$(call copy_to_outputs, $(BUILDROOT_PATH)/output/images/rootfs.squashfs)
+	$(call copy_to_outputs, ubi.img)
 ifeq ($(BRANCH), master)
 	$(call copy_to_outputs, $(BUILDROOT_RESCUE_PATH)/output/images/kernel-rescue.fit)
 endif

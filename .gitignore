@@ -1,3 +1,4 @@
 *.stamp
+*.tmp
 ccache
 dl
