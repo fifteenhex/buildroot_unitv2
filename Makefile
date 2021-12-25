@@ -31,7 +31,7 @@ define ubi-add-vol
 		>> ubinize.cfg.tmp
 endef
 
-.PHONY: ubi.img
+.PHONY: ubi.img upload
 ubi.img:
 	- rm ubinize.cfg.tmp
 	dd if=/dev/zero bs=1024 count=256 | tr '\000' '1' > env.img
