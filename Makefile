@@ -1,7 +1,7 @@
 PREFIX = unitv2
 DEFCONFIG = ../br2unitv2/configs/unitv2_defconfig
 DEFCONFIG_RESCUE = ../br2unitv2/configs/unitv2_rescue_defconfig
-EXTERNALS +=../br2autosshkey ../br2unitv2
+EXTERNALS +=../br2autosshkey ../br2chenxing ../br2unitv2
 TOOLCHAIN = arm-buildroot-linux-gnueabihf_sdk-buildroot.tar.gz
 
 all: buildroot buildroot-rescue copy_outputs upload
@@ -13,23 +13,13 @@ bootstrap.stamp:
 
 ./br2secretsauce/common.mk: bootstrap.stamp
 ./br2secretsauce/rescue.mk: bootstrap.stamp
+./br2secretsauce/ubi.mk: bootstrap.stamp
 
 bootstrap: bootstrap.stamp
 
 include ./br2secretsauce/common.mk
 include ./br2secretsauce/rescue.mk
-
-define ubi-add-vol
-	echo "[$2]\n"\
-		"\tmode=ubi\n"\
-		"\tvol_id=$1\n"\
-		"\tvol_name=$2\n"\
-		"\tvol_size=$3\n"\
-		"\tvol_type=$4\n"\
-		"\timage=$5\n"\
-		"\tvol_alignment=1\n"\
-		>> ubinize.cfg.tmp
-endef
+include ./br2secretsauce/ubi.mk
 
 .PHONY: ubi.img upload
 ubi.img:
