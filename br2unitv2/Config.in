@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_UNITV2_PATH/package/rtl8188fu/Config.in"
