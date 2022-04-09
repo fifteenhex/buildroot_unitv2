@@ -1,1 +1,78 @@
 source "$BR2_EXTERNAL_UNITV2_PATH/package/rtl8188fu/Config.in"
+
+config BR2_BOARD_UNITV2
+	bool "unit v2"
+	depends on BR2_arm
+	select BR2_LINUX_KERNEL
+	select BR2_PACKAGE_DNSMASQ
+	select BR2_PACKAGE_SANETIME
+	select BR2_PACKAGE_RTL8188FU
+	select BR2_PACKAGE_WIRELESS_REGDB
+	select BR2_PACKAGE_WPA_SUPPLICANT
+	select BR2_PACKAGE_HOST_GENIMAGE
+	select BR2_PACKAGE_HOST_UBOOT_TOOLS
+	select BR2_PACKAGE_HOST_UBOOT_TOOLS_FIT_SUPPORT
+	select BR2_PACKAGE_HOST_UBOOT_TOOLS_FIT_SIGNATURE_SUPPORT
+	select BR2_GCC_ENABLE_LTO
+	select BR2_LINUX_KERNEL_CUSTOM_GIT
+	select BR2_LINUX_KERNEL_USE_CUSTOM_CONFIG
+	select BR2_LINUX_KERNEL_XZ
+	select BR2_LINUX_KERNEL_DTS_SUPPORT
+	select BR2_PACKAGE_MTD
+	help
+	  Unit V2 support
+
+config BR2_BOARD_UNITV2_MAIN
+	bool "unit v2 main"
+	depends on BR2_BOARD_UNITV2
+	select BR2_TARGET_UBOOT
+	select BR2_TARGET_UBOOT_NEEDS_DTC
+	select BR2_TARGET_UBOOT_SPL
+	select BR2_TARGET_UBOOT_FORMAT_IMG
+	select BR2_TARGET_ROOTFS_SQUASHFS
+
+config BR2_BOARD_UNITV2_RESCUE
+	bool "unit v2 rescue"
+	depends on BR2_BOARD_UNITV2
+	select BR2_PACKAGE_LRZSZ
+	select BR2_TARGET_ROOTFS_CPIO
+	select BR2_TARGET_ROOTFS_CPIO_LZ4
+
+if BR2_BOARD_UNITV2
+
+# System config
+config BR2_TARGET_GENERIC_HOSTNAME
+	default "unitv2"
+
+config BR2_ROOTFS_POST_IMAGE_SCRIPT
+	default "support/scripts/genimage.sh"
+
+config BR2_ROOTFS_OVERLAY
+	default "$(BR2_EXTERNAL_UNITV2_PATH)/board/m5stack/unitv2/overlay/"
+
+# Default u-boot opts
+config BR2_TARGET_UBOOT_BOARD_DEFCONFIG
+	default "mstar_infinity2m_unitv2"
+
+config BR2_TARGET_UBOOT_SPL_NAME
+	default "ipl"
+
+# Default kernel opts
+config BR2_LINUX_KERNEL_CUSTOM_REPO_URL
+	default "https://github.com/linux-chenxing/linux.git"
+
+config BR2_LINUX_KERNEL_CUSTOM_REPO_VERSION
+	default "mstar_v5_18_rebase"
+
+config BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE
+	default "$(BR2_EXTERNAL_UNITV2_PATH)/board/m5stack/unitv2/linux.config"
+
+config BR2_LINUX_KERNEL_DTS_SUPPORT
+	default y
+
+config BR2_LINUX_KERNEL_INTREE_DTS_NAME
+	default "mstar-infinity2m-ssd202d-unitv2"
+
+#
+
+endif
