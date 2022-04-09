@@ -1,0 +1,60 @@
+---
+platform: linux/arm64
+
+pipeline:
+  createimage:
+    image: docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - ls -l ./
+      - ls -l /var/run/
+      - docker build -t unitv2_buildbot .
+      - chmod -R o+rw ./
+
+# Setup secrets
+  install_secrets:
+    image: unitv2_buildbot
+    secrets: [tftp_ssh_key]
+    commands:
+      - mkdir ./secrets/ && echo "$SSH_KEY" > ./secrets/tftp_ssh_key && chmod 0600 ./secrets/tftp_ssh_key
+
+# Boot strap
+  bootstrap:
+    image: unitv2_buildbot
+    commands:
+      - make bootstrap
+
+# DL
+  dl:
+    image: unitv2_buildbot
+    volumes:
+      - /var/local/ci_cache/buildroot_dl:/var/local/ci_cache/buildroot_dl
+    commands:
+      - ln -s /var/local/ci_cache/buildroot_dl dl
+      - make buildroot-dl
+
+# do it!
+  build:
+    image: unitv2_buildbot
+    volumes:
+      - /var/local/ci_cache/buildroot_dl:/var/local/ci_cache/buildroot_dl
+      - /var/local/ci_cache/ccache:/var/local/ci_cache/ccache
+    commands:
+      - ln -s /var/local/ci_cache/ccache ccache
+      - make
+
+# release to github
+  release:
+    image: plugins/github-release
+    secrets:
+      - source: github_token
+        target: github_release_api_key
+    settings:
+      files:
+        - outputs/*
+      title: ${CI_COMMIT_TAG}
+    when:
+      event: tag
+
+...
