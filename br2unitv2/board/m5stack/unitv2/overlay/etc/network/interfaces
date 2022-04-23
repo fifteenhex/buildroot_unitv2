@@ -5,3 +5,10 @@ auto eth0
 iface eth0 inet static
 address 20.20.20.1
 netmask 255.255.255.0
+
+auto wlan0
+iface wlan0 inet dhcp
+	hostname unitv2
+	pre-up modprobe rtl8188fu
+	pre-up wpa_supplicant -D nl80211 -i wlan0 -c /settings/wpa_supplicant.conf -B
+	post-down killall -q wpa_supplicant

@@ -1,4 +1,5 @@
 source "$BR2_EXTERNAL_UNITV2_PATH/package/rtl8188fu/Config.in"
+source "$BR2_EXTERNAL_UNITV2_PATH/package/unitv2support/Config.in"
 
 config BR2_BOARD_UNITV2
 	bool "unit v2"
@@ -20,6 +21,7 @@ config BR2_BOARD_UNITV2
 	select BR2_LINUX_KERNEL_XZ
 	select BR2_LINUX_KERNEL_DTS_SUPPORT
 	select BR2_PACKAGE_MTD
+	select BR2_PACKAGE_UNITV2SUPPORT
 	help
 	  Unit V2 support
 

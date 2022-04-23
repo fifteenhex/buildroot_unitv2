@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RTL8188FU_VERSION = a5a720613e66bea7335d13082c5106f338b91780
+RTL8188FU_VERSION = a0168ba60e7228d579471affc86bb7244b650667
 RTL8188FU_SITE = $(call github,fifteenhex,rtl8188fu,$(RTL8188FU_VERSION))
 RTL8188FU_LICENSE = GPL-2.0, proprietary (firmware/rtl8188fufw.bin firmware blob)
 RTL8188FU_LICENSE_FILES = COPYING
