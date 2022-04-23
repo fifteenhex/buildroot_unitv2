@@ -1,7 +1,7 @@
 PREFIX = unitv2
 DEFCONFIG = ../br2unitv2/configs/unitv2_defconfig
 DEFCONFIG_RESCUE = ../br2unitv2/configs/unitv2_rescue_defconfig
-EXTERNALS +=../br2autosshkey ../br2chenxing ../br2unitv2 ../br2sanetime
+EXTERNALS +=../br2autosshkey ../br2chenxing ../br2unitv2 ../br2sanetime ../br2dgppkg
 TOOLCHAIN = arm-buildroot-linux-gnueabihf_sdk-buildroot.tar.gz
 
 all: buildroot buildroot-rescue copy_outputs upload

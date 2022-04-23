@@ -16,3 +16,6 @@
 [submodule "br2sanetime"]
 	path = br2sanetime
 	url = https://github.com/fifteenhex/br2sanetime.git
+[submodule "br2dgppkg"]
+	path = br2dgppkg
+	url = https://github.com/fifteenhex/br2dgppkg.git
