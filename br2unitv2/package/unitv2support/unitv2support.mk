@@ -11,10 +11,12 @@ UNITV2SUPPORT_DEPENDENCIES = host-mtd
 
 define UNITV2SUPPORT_BUILD_CMDS
 	$(HOST_DIR)/sbin/mkfs.ubifs -m 2048 -e 124KiB -c 128 -r $(@D)/src/ $(BINARIES_DIR)/settings.ubifs
+	$(HOST_DIR)/sbin/mkfs.ubifs -m 2048 -e 124KiB -c 2048 $(BINARIES_DIR)/data.ubifs
 endef
 
 define UNITV2SUPPORT_MOUNTPOINTS
 	mkdir -p $(TARGET_DIR)/settings
+	mkdir -p $(TARGET_DIR)/data
 endef
 
 UNITV2SUPPORT_TARGET_FINALIZE_HOOKS += UNITV2SUPPORT_MOUNTPOINTS

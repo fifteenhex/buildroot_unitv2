@@ -8,3 +8,4 @@ tmpfs		/run		tmpfs	mode=0755,nosuid,nodev	0	0
 sysfs		/sys		sysfs	defaults	0	0
 
 /dev/ubi0_5	/settings	ubifs	defaults	0	0
+/dev/ubi0_6	/data		ubifs	defaults	0	0

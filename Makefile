@@ -31,6 +31,7 @@ ubi.img:
 	$(call ubi-add-vol,3,kernel,16MiB,static,buildroot/output/images/kernel.fit)
 	$(call ubi-add-vol,4,rootfs,64MiB,dynamic,buildroot/output/images/rootfs.squashfs)
 	$(call ubi-add-vol,5,settings,16MiB,dynamic,buildroot/output/images/settings.ubifs)
+	$(call ubi-add-vol,6,data,256MiB,dynamic,buildroot/output/images/data.ubifs)
 	/usr/sbin/ubinize -o $@ -p 128KiB -m 2048 -s 2048 ubinize.cfg.tmp
 
 copy_outputs: ubi.img
